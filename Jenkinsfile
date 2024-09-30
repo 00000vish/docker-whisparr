@@ -19,13 +19,13 @@ pipeline {
     DOCKERHUB_TOKEN=credentials('docker-hub-ci-pat')
     QUAYIO_API_TOKEN=credentials('quayio-repo-api-token')
     GIT_SIGNING_KEY=credentials('484fbca6-9a4f-455e-b9e3-97ac98785f5f')
-    BUILD_VERSION_ARG = 'RADARR_RELEASE'
+    BUILD_VERSION_ARG = 'WHISPARR_RELEASE'
     LS_USER = 'linuxserver'
-    LS_REPO = 'docker-radarr'
-    CONTAINER_NAME = 'radarr'
-    DOCKERHUB_IMAGE = 'linuxserver/radarr'
-    DEV_DOCKERHUB_IMAGE = 'lsiodev/radarr'
-    PR_DOCKERHUB_IMAGE = 'lspipepr/radarr'
+    LS_REPO = 'docker-whisparr'
+    CONTAINER_NAME = 'whisparr'
+    DOCKERHUB_IMAGE = 'linuxserver/whisparr'
+    DEV_DOCKERHUB_IMAGE = 'lsiodev/whisparr'
+    PR_DOCKERHUB_IMAGE = 'lspipepr/whisparr'
     DIST_IMAGE = 'alpine'
     MULTIARCH='true'
     CI='true'
@@ -131,7 +131,7 @@ pipeline {
       steps{
         script{
           env.EXT_RELEASE = sh(
-            script: ''' curl -sL https://radarr.servarr.com/v1/update/master/changes?runtime=netcore%26os=linuxmusl | jq -r '.[0].version' ''',
+            script: ''' curl -sL https://whisparr.servarr.com/v1/update/master/changes?runtime=netcore%26os=linuxmusl | jq -r '.[0].version' ''',
             returnStdout: true).trim()
             env.RELEASE_LINK = 'custom_command'
         }
@@ -532,16 +532,16 @@ pipeline {
         sh "docker buildx build \
           --label \"org.opencontainers.image.created=${GITHUB_DATE}\" \
           --label \"org.opencontainers.image.authors=linuxserver.io\" \
-          --label \"org.opencontainers.image.url=https://github.com/linuxserver/docker-radarr/packages\" \
-          --label \"org.opencontainers.image.documentation=https://docs.linuxserver.io/images/docker-radarr\" \
-          --label \"org.opencontainers.image.source=https://github.com/linuxserver/docker-radarr\" \
+          --label \"org.opencontainers.image.url=https://github.com/linuxserver/docker-whisparr/packages\" \
+          --label \"org.opencontainers.image.documentation=https://docs.linuxserver.io/images/docker-whisparr\" \
+          --label \"org.opencontainers.image.source=https://github.com/linuxserver/docker-whisparr\" \
           --label \"org.opencontainers.image.version=${EXT_RELEASE_CLEAN}-ls${LS_TAG_NUMBER}\" \
           --label \"org.opencontainers.image.revision=${COMMIT_SHA}\" \
           --label \"org.opencontainers.image.vendor=linuxserver.io\" \
           --label \"org.opencontainers.image.licenses=GPL-3.0-only\" \
           --label \"org.opencontainers.image.ref.name=${COMMIT_SHA}\" \
-          --label \"org.opencontainers.image.title=Radarr\" \
-          --label \"org.opencontainers.image.description=[Radarr](https://github.com/Radarr/Radarr) - A fork of Sonarr to work with movies à la Couchpotato.  \" \
+          --label \"org.opencontainers.image.title=Whisparr\" \
+          --label \"org.opencontainers.image.description=[Whisparr](https://github.com/Whisparr/Whisparr) - A fork of Sonarr to work with movies à la Couchpotato.  \" \
           --no-cache --pull -t ${IMAGE}:${META_TAG} --platform=linux/amd64 \
           --provenance=false --sbom=false \
           --build-arg ${BUILD_VERSION_ARG}=${EXT_RELEASE} --build-arg VERSION=\"${VERSION_TAG}\" --build-arg BUILD_DATE=${GITHUB_DATE} ."
@@ -564,16 +564,16 @@ pipeline {
             sh "docker buildx build \
               --label \"org.opencontainers.image.created=${GITHUB_DATE}\" \
               --label \"org.opencontainers.image.authors=linuxserver.io\" \
-              --label \"org.opencontainers.image.url=https://github.com/linuxserver/docker-radarr/packages\" \
-              --label \"org.opencontainers.image.documentation=https://docs.linuxserver.io/images/docker-radarr\" \
-              --label \"org.opencontainers.image.source=https://github.com/linuxserver/docker-radarr\" \
+              --label \"org.opencontainers.image.url=https://github.com/linuxserver/docker-whisparr/packages\" \
+              --label \"org.opencontainers.image.documentation=https://docs.linuxserver.io/images/docker-whisparr\" \
+              --label \"org.opencontainers.image.source=https://github.com/linuxserver/docker-whisparr\" \
               --label \"org.opencontainers.image.version=${EXT_RELEASE_CLEAN}-ls${LS_TAG_NUMBER}\" \
               --label \"org.opencontainers.image.revision=${COMMIT_SHA}\" \
               --label \"org.opencontainers.image.vendor=linuxserver.io\" \
               --label \"org.opencontainers.image.licenses=GPL-3.0-only\" \
               --label \"org.opencontainers.image.ref.name=${COMMIT_SHA}\" \
-              --label \"org.opencontainers.image.title=Radarr\" \
-              --label \"org.opencontainers.image.description=[Radarr](https://github.com/Radarr/Radarr) - A fork of Sonarr to work with movies à la Couchpotato.  \" \
+              --label \"org.opencontainers.image.title=Whisparr\" \
+              --label \"org.opencontainers.image.description=[Whisparr](https://github.com/Whisparr/Whisparr) - A fork of Sonarr to work with movies à la Couchpotato.  \" \
               --no-cache --pull -t ${IMAGE}:amd64-${META_TAG} --platform=linux/amd64 \
               --provenance=false --sbom=false \
               --build-arg ${BUILD_VERSION_ARG}=${EXT_RELEASE} --build-arg VERSION=\"${VERSION_TAG}\" --build-arg BUILD_DATE=${GITHUB_DATE} ."
@@ -593,16 +593,16 @@ pipeline {
             sh "docker buildx build \
               --label \"org.opencontainers.image.created=${GITHUB_DATE}\" \
               --label \"org.opencontainers.image.authors=linuxserver.io\" \
-              --label \"org.opencontainers.image.url=https://github.com/linuxserver/docker-radarr/packages\" \
-              --label \"org.opencontainers.image.documentation=https://docs.linuxserver.io/images/docker-radarr\" \
-              --label \"org.opencontainers.image.source=https://github.com/linuxserver/docker-radarr\" \
+              --label \"org.opencontainers.image.url=https://github.com/linuxserver/docker-whisparr/packages\" \
+              --label \"org.opencontainers.image.documentation=https://docs.linuxserver.io/images/docker-whisparr\" \
+              --label \"org.opencontainers.image.source=https://github.com/linuxserver/docker-whisparr\" \
               --label \"org.opencontainers.image.version=${EXT_RELEASE_CLEAN}-ls${LS_TAG_NUMBER}\" \
               --label \"org.opencontainers.image.revision=${COMMIT_SHA}\" \
               --label \"org.opencontainers.image.vendor=linuxserver.io\" \
               --label \"org.opencontainers.image.licenses=GPL-3.0-only\" \
               --label \"org.opencontainers.image.ref.name=${COMMIT_SHA}\" \
-              --label \"org.opencontainers.image.title=Radarr\" \
-              --label \"org.opencontainers.image.description=[Radarr](https://github.com/Radarr/Radarr) - A fork of Sonarr to work with movies à la Couchpotato.  \" \
+              --label \"org.opencontainers.image.title=Whisparr\" \
+              --label \"org.opencontainers.image.description=[Whisparr](https://github.com/Whisparr/Whisparr) - A fork of Sonarr to work with movies à la Couchpotato.  \" \
               --no-cache --pull -f Dockerfile.aarch64 -t ${IMAGE}:arm64v8-${META_TAG} --platform=linux/arm64 \
               --provenance=false --sbom=false \
               --build-arg ${BUILD_VERSION_ARG}=${EXT_RELEASE} --build-arg VERSION=\"${VERSION_TAG}\" --build-arg BUILD_DATE=${GITHUB_DATE} ."

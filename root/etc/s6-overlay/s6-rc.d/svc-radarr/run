@@ -3,5 +3,5 @@
 
 exec \
     s6-notifyoncheck -d -n 300 -w 1000 \
-        cd /app/radarr/bin s6-setuidgid abc /app/radarr/bin/Radarr \
+        cd /app/whisparr/bin s6-setuidgid abc /app/whisparr/bin/Whisparr \
         -nobrowser -data=/config

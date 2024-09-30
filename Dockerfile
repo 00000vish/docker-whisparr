@@ -5,15 +5,15 @@ FROM ghcr.io/linuxserver/baseimage-alpine:3.20
 # set version label
 ARG BUILD_DATE
 ARG VERSION
-ARG RADARR_RELEASE
+ARG WHISPARR_RELEASE
 LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DATE}"
 LABEL maintainer="Roxedus,thespad"
 
 # environment settings
-ARG RADARR_BRANCH="master"
+ARG WHISPARR_BRANCH="nightly"
 ENV XDG_CONFIG_HOME="/config/xdg" \
   COMPlus_EnableDiagnostics=0 \
-  TMPDIR=/run/radarr-temp
+  TMPDIR=/run/whisparr-temp
 
 RUN \
   echo "**** install packages ****" && \
@@ -21,29 +21,29 @@ RUN \
     icu-libs \
     sqlite-libs \
     xmlstarlet && \
-  echo "**** install radarr ****" && \
-  mkdir -p /app/radarr/bin && \
-  if [ -z ${RADARR_RELEASE+x} ]; then \
-    RADARR_RELEASE=$(curl -sL "https://radarr.servarr.com/v1/update/${RADARR_BRANCH}/changes?runtime=netcore&os=linuxmusl" \
+  echo "**** install whisparr ****" && \
+  mkdir -p /app/whisparr/bin && \
+  if [ -z ${WHISPARR_RELEASE+x} ]; then \
+    WHISPARR_RELEASE=$(curl -sL "https://whisparr.servarr.com/v1/update/${WHISPARR_BRANCH}/changes?runtime=netcore&os=linuxmusl" \
     | jq -r '.[0].version'); \
   fi && \
   curl -o \
-    /tmp/radarr.tar.gz -L \
-    "https://radarr.servarr.com/v1/update/${RADARR_BRANCH}/updatefile?version=${RADARR_RELEASE}&os=linuxmusl&runtime=netcore&arch=x64" && \
+    /tmp/whisparr.tar.gz -L \
+    "https://whisparr.servarr.com/v1/update/${WHISPARR_BRANCH}/updatefile?version=${WHISPARR_RELEASE}&os=linuxmusl&runtime=netcore&arch=x64" && \
   tar xzf \
-    /tmp/radarr.tar.gz -C \
-    /app/radarr/bin --strip-components=1 && \
-  echo -e "UpdateMethod=docker\nBranch=${RADARR_BRANCH}\nPackageVersion=${VERSION}\nPackageAuthor=[linuxserver.io](https://linuxserver.io)" > /app/radarr/package_info && \
+    /tmp/whisparr.tar.gz -C \
+    /app/whisparr/bin --strip-components=1 && \
+  echo -e "UpdateMethod=docker\nBranch=${WHISPARR_BRANCH}\nPackageVersion=${VERSION}\nPackageAuthor=[linuxserver.io](https://linuxserver.io)" > /app/whisparr/package_info && \
   printf "Linuxserver.io version: ${VERSION}\nBuild-date: ${BUILD_DATE}" > /build_version && \
   echo "**** cleanup ****" && \
   rm -rf \
-    /app/radarr/bin/Radarr.Update \
+    /app/whisparr/bin/Whisparr.Update \
     /tmp/*
 
 # copy local files
 COPY root/ /
 
 # ports and volumes
-EXPOSE 7878
+EXPOSE 6969
 
 VOLUME /config

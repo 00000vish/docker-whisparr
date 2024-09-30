@@ -1,1 +1,1 @@
-Radarr: https://opencollective.com/radarr
+Whisparr: https://opencollective.com/whisparr
