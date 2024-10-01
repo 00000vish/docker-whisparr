@@ -10,7 +10,7 @@ LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DA
 LABEL maintainer="Roxedus,thespad"
 
 # environment settings
-ARG WHISPARR_BRANCH="nightly"
+ARG WHISPARR_BRANCH="develop"
 ENV XDG_CONFIG_HOME="/config/xdg" \
   COMPlus_EnableDiagnostics=0 \
   TMPDIR=/run/whisparr-temp
