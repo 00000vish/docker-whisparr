@@ -10,7 +10,7 @@ LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DA
 LABEL maintainer="Roxedus,thespad"
 
 # environment settings
-ARG WHISPARR_BRANCH="develop"
+ARG WHISPARR_BRANCH="nightly"
 ENV XDG_CONFIG_HOME="/config/xdg" \
   COMPlus_EnableDiagnostics=0 \
   TMPDIR=/run/whisparr-temp
@@ -24,7 +24,7 @@ RUN \
   echo "**** install whisparr ****" && \
   mkdir -p /app/whisparr/bin && \
   if [ -z ${WHISPARR_RELEASE+x} ]; then \
-    WHISPARR_RELEASE=$(curl -sL "https://whisparr.servarr.com/v1/update/${WHISPARR_BRANCH}/changes?runtime=netcore&os=linuxmusl" \
+    WHISPARR_RELEASE=$(curl -sL "https://whisparr.servarr.com/v1/update/${WHISPARR_BRANCH}/updatefile?runtime=netcore&os=linuxmusl" \
     | jq -r '.[0].version'); \
   fi && \
   curl -o \
