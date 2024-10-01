@@ -24,7 +24,7 @@ RUN \
   echo "**** install whisparr ****" && \
   mkdir -p /app/whisparr/bin && \
   if [ -z ${WHISPARR_RELEASE+x} ]; then \
-    WHISPARR_RELEASE=$(curl -sL "https://whisparr.servarr.com/v1/update/${WHISPARR_BRANCH}/updatefile?runtime=netcore&os=linuxmusl" \
+    WHISPARR_RELEASE=$(curl -sL "https://whisparr.servarr.com/v1/update/${WHISPARR_BRANCH}/changes?runtime=netcore&os=linuxmusl" \
     | jq -r '.[0].version'); \
   fi && \
   curl -o \
